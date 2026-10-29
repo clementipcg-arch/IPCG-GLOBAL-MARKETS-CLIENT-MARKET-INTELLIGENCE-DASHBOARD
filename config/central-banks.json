@@ -1,0 +1,64 @@
+{
+  "_comment": "Policy rates and official meeting schedules. Each entry carries its primary source and the date it was last verified. The Fed range is refreshed automatically from FRED (DFEDTARL/DFEDTARU) when FRED_API_KEY is set; the others are maintained by IPCG through the admin console or by editing this file after each decision. Verified 29 Oct 2026.",
+  "verifiedAt": "2026-10-29",
+  "policyRates": [
+    {
+      "id": "fed", "bank": "Federal Reserve", "zh": "美國聯準會", "region": "US",
+      "rate": "3.75% – 4.00%", "instrument": "Federal funds target range",
+      "lastDecision": "2026-10-28", "decision": "Held", "decisionZh": "維持不變",
+      "detail": "Vote 10–2; Governors Cook and Hammack preferred a 25 bp increase.",
+      "source": "Federal Reserve press release", "sourceUrl": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm",
+      "next": "2026-12-09"
+    },
+    {
+      "id": "ecb", "bank": "European Central Bank", "zh": "歐洲央行", "region": "Europe",
+      "rate": "2.50%", "instrument": "Deposit facility rate",
+      "lastDecision": "2026-09-16", "decision": "Raised 25 bp (effective 16 Sep 2026)", "decisionZh": "升息1碼 (2026年9月16日生效)",
+      "detail": "Main refinancing rate 2.65%; marginal lending facility 2.90%.",
+      "source": "ECB key interest rates", "sourceUrl": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/key_ecb_interest_rates/html/index.en.html",
+      "next": "2026-10-29"
+    },
+    {
+      "id": "boe", "bank": "Bank of England", "zh": "英格蘭銀行", "region": "UK",
+      "rate": "3.75%", "instrument": "Bank Rate",
+      "lastDecision": "2026-09-17", "decision": "Held", "decisionZh": "維持不變",
+      "detail": "",
+      "source": "Bank of England – Bank Rate", "sourceUrl": "https://www.bankofengland.co.uk/monetary-policy/the-interest-rate-bank-rate",
+      "next": "2026-11-05"
+    },
+    {
+      "id": "boj", "bank": "Bank of Japan", "zh": "日本央行", "region": "Japan",
+      "rate": "1.25%", "instrument": "Uncollateralised overnight call rate (target)",
+      "lastDecision": "2026-09-18", "decision": "Raised to 1.25%", "decisionZh": "升息至1.25%",
+      "detail": "Change in the guideline for money market operations, September 2026 MPM.",
+      "source": "Bank of Japan – Statements on Monetary Policy 2026", "sourceUrl": "https://www.boj.or.jp/en/mopo/mpmdeci/state_2026/index.htm",
+      "next": "2026-10-30"
+    },
+    {
+      "id": "pboc", "bank": "People's Bank of China", "zh": "中國人民銀行", "region": "China",
+      "rate": "3.00% (1Y LPR) · 3.50% (5Y LPR)", "instrument": "Loan prime rates",
+      "lastDecision": "2026-10", "decision": "Unchanged for a 17th month", "decisionZh": "連續第17個月維持不變",
+      "detail": "LPR fixings are published on the 20th of each month (next business day if a holiday).",
+      "source": "Trading Economics (secondary; confirm on pbc.gov.cn)", "sourceUrl": "https://tradingeconomics.com/china/interest-rate/news/593249",
+      "next": "2026-11-20"
+    },
+    {
+      "id": "cbc", "bank": "Central Bank of the Republic of China (Taiwan)", "zh": "中華民國中央銀行", "region": "Taiwan",
+      "rate": "2.00%", "instrument": "Discount rate",
+      "lastDecision": "2026-09-17", "decision": "Discount rate 2.00% (unchanged since 22 Mar 2024)", "decisionZh": "重貼現率2.00% (自2024年3月22日起未變)",
+      "detail": "Quarterly board meeting on 17 Sep 2026.",
+      "source": "CBC key indicators", "sourceUrl": "https://www.cbc.gov.tw/en/lp-692-2.html",
+      "next": null
+    }
+  ],
+  "meetings": [
+    { "date": "2026-10-29", "time": "14:15", "tz": "Europe/Berlin", "bank": "ECB", "event": "ECB monetary policy decision", "zh": "歐洲央行利率決議", "importance": "high", "region": "Europe", "sourceUrl": "https://www.ecb.europa.eu/press/calendars/mgcgc/html/index.en.html", "timeNote": "Decision 14:15 CET; press conference 14:45 CET" },
+    { "date": "2026-10-30", "time": null, "tz": "Asia/Tokyo", "bank": "BoJ", "event": "Bank of Japan monetary policy decision (MPM 29–30 Oct)", "zh": "日本央行利率決議", "importance": "high", "region": "Japan", "sourceUrl": "https://www.boj.or.jp/en/mopo/mpmsche_minu/index.htm", "timeNote": "Announcement time is not pre-set; usually around midday JST" },
+    { "date": "2026-11-05", "time": "12:00", "tz": "Europe/London", "bank": "BoE", "event": "Bank of England MPC announcement", "zh": "英格蘭銀行利率決議", "importance": "high", "region": "UK", "sourceUrl": "https://www.bankofengland.co.uk/monetary-policy/the-interest-rate-bank-rate" },
+    { "date": "2026-11-20", "time": "09:00", "tz": "Asia/Shanghai", "bank": "PBOC", "event": "China loan prime rate fixing", "zh": "中國貸款市場報價利率 (LPR)", "importance": "medium", "region": "China", "sourceUrl": "http://www.pbc.gov.cn/", "timeNote": "Published around 09:00 Beijing time" },
+    { "date": "2026-12-09", "time": "14:00", "tz": "America/New_York", "bank": "Fed", "event": "FOMC decision, with Summary of Economic Projections", "zh": "美國聯準會利率決議 (含經濟預測)", "importance": "high", "region": "US", "sourceUrl": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm" },
+    { "date": "2026-12-17", "time": "14:15", "tz": "Europe/Berlin", "bank": "ECB", "event": "ECB monetary policy decision", "zh": "歐洲央行利率決議", "importance": "high", "region": "Europe", "sourceUrl": "https://www.ecb.europa.eu/press/calendars/mgcgc/html/index.en.html" },
+    { "date": "2026-12-18", "time": null, "tz": "Asia/Tokyo", "bank": "BoJ", "event": "Bank of Japan monetary policy decision (MPM 17–18 Dec)", "zh": "日本央行利率決議", "importance": "high", "region": "Japan", "sourceUrl": "https://www.boj.or.jp/en/mopo/mpmsche_minu/index.htm" },
+    { "date": "2027-01-27", "time": "14:00", "tz": "America/New_York", "bank": "Fed", "event": "FOMC decision", "zh": "美國聯準會利率決議", "importance": "high", "region": "US", "sourceUrl": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm" }
+  ]
+}

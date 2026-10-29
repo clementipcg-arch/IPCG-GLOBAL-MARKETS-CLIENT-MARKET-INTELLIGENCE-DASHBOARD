@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>IPCG Global Markets – Publication Review</title>
+<link rel="stylesheet" href="/app.css">
+<style>
+  .adm { max-width: 900px; margin: 0 auto; padding: 20px 16px 60px; display: grid; gap: 18px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px; display: grid; gap: 10px; }
+  .adm input, .adm textarea { font: inherit; font-size: 15px; width: 100%; border: 1px solid var(--line); border-radius: 8px; padding: 10px; background: var(--surface); color: var(--ink); }
+  .adm textarea { min-height: 90px; }
+  .adm label { font-size: 13px; font-weight: 700; color: var(--muted); }
+  .row2 { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .warn { color: var(--warn); font-size: 14px; }
+  .facts { font-size: 13px; color: var(--slate); max-height: 220px; overflow: auto; border-top: 1px solid var(--line-2); padding-top: 8px; }
+  .hist { font-size: 12px; color: var(--muted); }
+</style>
+</head>
+<body>
+<header class="mast" style="position:static"><div class="wrap" style="padding-block:14px"><div class="brand"><span class="mono">IPCG</span><span class="brand-text"><span class="brand-title">Publication review</span><br><span class="brand-sub">Internal · not for clients</span></span></div></div></header>
+<div class="adm" id="adm">
+  <div class="card" id="login">
+    <h2>Sign in</h2>
+    <p class="lede">Enter the admin token configured on the server (ADMIN_TOKEN).</p>
+    <label for="token">Admin token</label><input id="token" type="password" autocomplete="current-password">
+    <div class="row2"><button class="btn" id="go">Sign in</button></div>
+    <p class="warn" id="login-err" hidden></p>
+  </div>
+  <div id="main-ui" hidden>
+    <div class="card"><div class="row2" style="justify-content:space-between"><h2>Data sources</h2><button class="btn secondary" id="reload">Reload</button></div><div class="health" id="health"></div><div id="quality"></div></div>
+    <div class="card">
+      <h2>Prepare a briefing</h2>
+      <p class="lede">Drafts are generated from the current data. They are never shown to clients until a named reviewer approves them below.</p>
+      <div class="row2"><button class="btn" data-gen="daily">New daily draft</button><button class="btn secondary" data-gen="weekly">New weekly draft</button><label style="display:flex;gap:6px;align-items:center;font-weight:600"><input type="checkbox" id="useAi" checked style="width:auto"> Use AI drafting if configured</label></div>
+      <p class="lede" id="gen-msg"></p>
+    </div>
+    <div id="list" style="display:grid;gap:18px"></div>
+  </div>
+</div>
+<script src="/admin.js"></script>
+</body>
+</html>
