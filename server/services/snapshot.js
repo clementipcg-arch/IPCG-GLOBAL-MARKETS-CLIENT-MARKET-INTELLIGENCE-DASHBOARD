@@ -84,14 +84,33 @@ function curveFromRows(t, now = new Date()) {
   };
 }
 
+// Backup when the Treasury website refuses automated requests: the Federal Reserve's H.15 Treasury
+// constant-maturity yields via FRED (same Treasury yields, published one business day later).
+const H15 = { '3M': 'DGS3MO', '6M': 'DGS6MO', '1Y': 'DGS1', '2Y': 'DGS2', '5Y': 'DGS5', '7Y': 'DGS7', '10Y': 'DGS10', '20Y': 'DGS20', '30Y': 'DGS30' };
+async function curveFromFred() {
+  const start = new Date(Date.now() - 75 * 864e5).toISOString().slice(0, 10);
+  const byDate = new Map();
+  for (const [tenor, id] of Object.entries(H15)) {
+    const h = await official.fredSeries(id, start);
+    if (!h) throw new Error('FRED_API_KEY not set');
+    for (const r of h.rows) { if (!byDate.has(r.date)) byDate.set(r.date, { date: r.date }); byDate.get(r.date)[tenor] = r.value; }
+  }
+  const rows = [...byDate.values()].filter((r) => r['10Y'] !== undefined && r['2Y'] !== undefined).sort((x, y) => x.date.localeCompare(y.date));
+  for (const r of rows) for (const k of Object.keys(H15)) if (r[k] === undefined) r[k] = null;
+  if (rows.length < 5) throw new Error('Not enough H.15 observations');
+  const c = curveFromRows({ rows, source: 'Federal Reserve H.15 Treasury yields, via FRED', sourceUrl: 'https://fred.stlouisfed.org/series/DGS10', retrievedAt: new Date().toISOString() });
+  c.note = 'US Treasury website unavailable; showing the same Treasury yields from the Federal Reserve H.15 release.';
+  return c;
+}
+
 async function buildCurve() {
   try {
     return curveFromRows(await official.treasuryCurve());
   } catch (e) {
-    return { status: 'unavailable', reason: 'US Treasury data temporarily unavailable', error: String(e.message || e) };
+    try { return await curveFromFred(); }
+    catch (e2) { return { status: 'unavailable', reason: 'US Treasury data temporarily unavailable', error: String(e.message || e) + ' / ' + String(e2.message || e2) }; }
   }
 }
-
 async function buildSovereigns() {
   const out = [];
   let mof = null;
