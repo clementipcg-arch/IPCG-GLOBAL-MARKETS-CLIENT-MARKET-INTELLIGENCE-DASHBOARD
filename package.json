@@ -1,0 +1,17 @@
+{
+  "name": "ipcg-global-markets",
+  "version": "1.0.0",
+  "private": true,
+  "description": "IPCG Global Markets — client-facing market intelligence dashboard for Invest Partners Capital Group.",
+  "main": "server/index.js",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "DEMO_MODE=true APP_ENV=development node server/index.js",
+    "test": "node --test test/*.test.js",
+    "preview": "node scripts/build-preview.js",
+    "qa": "node scripts/build-preview.js && node scripts/qa-screens.js",
+    "og-image": "node scripts/make-og-image.js"
+  },
+  "license": "UNLICENSED"
+}

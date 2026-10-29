@@ -1,0 +1,33 @@
+# Render.com blueprint (Singapore region). Create via Dashboard > Blueprints > New, then fill the secret env vars.
+services:
+  - type: web
+    name: ipcg-global-markets
+    runtime: docker
+    region: singapore
+    plan: starter            # always-on; the free plan sleeps and is unsuitable for clients
+    healthCheckPath: /robots.txt
+    disk:
+      name: ipcg-data
+      mountPath: /data
+      sizeGB: 1
+    envVars:
+      - key: PUBLIC_URL
+        sync: false
+      - key: ADMIN_TOKEN
+        generateValue: true
+      - key: FRED_API_KEY
+        sync: false
+      - key: EODHD_API_KEY
+        sync: false
+      - key: EODHD_LATENCY
+        value: delayed
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: ANTHROPIC_MODEL
+        sync: false
+      - key: ICE_BOFA_CLIENT_LICENCE
+        value: "false"
+      - key: DEMO_MODE
+        value: "false"
+      - key: DATA_DIR
+        value: /data

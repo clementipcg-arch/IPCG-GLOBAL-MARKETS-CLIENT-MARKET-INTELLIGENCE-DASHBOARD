@@ -1,0 +1,34 @@
+# When a briefing pull request is merged, record who approved it and republish the dashboard.
+name: Publish approved briefing
+on:
+  pull_request:
+    types: [closed]
+permissions: { contents: write }
+jobs:
+  approve:
+    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'briefing/')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: main }
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: Record approval
+        run: node scripts/approve-briefing.js
+        env:
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+          MERGED_BY: ${{ github.event.pull_request.merged_by.login }}
+          MERGED_AT: ${{ github.event.pull_request.merged_at }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          APPROVER_NAMES: ${{ vars.APPROVER_NAMES }}   # optional JSON, e.g. {"clementtang": "Clement Tang"}
+      - name: Commit publication record
+        run: |
+          git config user.name "ipcg-briefing-bot"; git config user.email "actions@users.noreply.github.com"
+          git add briefings/published
+          git commit -m "Publish briefing approved by ${{ github.event.pull_request.merged_by.login }}"
+          git push origin main
+  deploy:
+    needs: approve
+    uses: ./.github/workflows/update.yml
+    with: { ref: main }
+    secrets: inherit

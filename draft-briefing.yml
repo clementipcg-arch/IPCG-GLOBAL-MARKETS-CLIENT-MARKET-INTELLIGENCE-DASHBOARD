@@ -1,0 +1,41 @@
+# Prepares a briefing draft as a pull request for review. Nothing is published until a reviewer merges it.
+name: Prepare briefing draft
+on:
+  schedule:
+    - cron: '0 23 * * 0-4'  # 07:00 SGT, Monday-Friday (daily)
+    - cron: '0 0 * * 6'     # 08:00 SGT Saturday (weekly)
+  workflow_dispatch:
+    inputs:
+      mode: { type: choice, options: [daily, weekly], default: daily }
+permissions: { contents: write, pull-requests: write }
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: Choose mode
+        id: m
+        run: |
+          if [ "${{ github.event.schedule }}" = "0 0 * * 6" ]; then echo "mode=weekly" >> $GITHUB_OUTPUT; else echo "mode=${{ inputs.mode || 'daily' }}" >> $GITHUB_OUTPUT; fi
+          echo "date=$(TZ=Asia/Singapore date +%Y-%m-%d)" >> $GITHUB_OUTPUT
+      - name: Build draft from current data
+        run: node scripts/draft-briefing.js ${{ steps.m.outputs.mode }}
+        env:
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+          EODHD_API_KEY: ${{ secrets.EODHD_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ANTHROPIC_MODEL: ${{ vars.ANTHROPIC_MODEL }}
+      - name: Open pull request for review
+        env: { GH_TOKEN: "${{ github.token }}" }
+        run: |
+          BR="briefing/${{ steps.m.outputs.mode }}-${{ steps.m.outputs.date }}-${{ github.run_number }}"
+          git config user.name "ipcg-briefing-bot"; git config user.email "actions@users.noreply.github.com"
+          git checkout -b "$BR"
+          git add briefings/drafts
+          git commit -m "Briefing draft: ${{ steps.m.outputs.mode }} ${{ steps.m.outputs.date }}"
+          git push origin "$BR"
+          TITLE="$([ '${{ steps.m.outputs.mode }}' = weekly ] && echo 'Weekly Review' || echo 'Daily Briefing') for review — ${{ steps.m.outputs.date }}"
+          gh pr create --base main --head "$BR" --title "$TITLE" --body-file dist/pr-body.md
